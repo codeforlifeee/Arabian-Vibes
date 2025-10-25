@@ -1,0 +1,192 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+/* slick carousel core */
+
+@layer base {
+  :root {
+    /*  Tours Brand Colors - HSL format */
+    --background: 0 0% 100%;
+    --foreground: 210 13% 22%;
+    
+    /* Travel brand colors */
+    --primary: 220 56% 31%; /* #133E87 */
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 220 56% 45%;
+    
+    --secondary: 213 40% 58%; /* #608BC1 */
+    --secondary-foreground: 0 0% 100%;
+    
+    --accent: 213 47% 88%; /* #CBDCEB */
+    --accent-foreground: 210 13% 22%;
+    
+    --travel-orange: 25 95% 63%;
+    --travel-orange-foreground: 0 0% 100%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 13% 22%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 13% 22%;
+
+    --muted: 213 20% 95%;
+    --muted-foreground: 210 13% 45%;
+
+    --luxury: 280 80% 50%;
+    --luxury-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 213 20% 90%;
+    --input: 213 20% 95%;
+    --ring: 220 56% 31%;
+
+    --radius: 0.75rem;
+    
+    /* Travel-specific design tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--background)), hsl(var(--accent) / 0.3));
+    --shadow-luxury: 0 20px 40px -12px hsl(var(--primary) / 0.25);
+    --shadow-card: 0 4px 20px -4px hsl(var(--primary) / 0.1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 26% 14%;
+    --foreground: 213 47% 88%;
+    --card: 220 26% 14%;
+    --card-foreground: 213 47% 88%;
+    --popover: 220 26% 14%;
+    --popover-foreground: 213 47% 88%;
+    --primary: 213 47% 88%;
+    --primary-foreground: 220 56% 31%;
+    --primary-glow: 213 40% 75%;
+    --secondary: 220 26% 18%;
+    --secondary-foreground: 213 47% 88%;
+    --accent: 220 26% 18%;
+    --accent-foreground: 213 47% 88%;
+    --muted: 220 26% 18%;
+    --muted-foreground: 213 20% 65%;
+    --border: 220 26% 18%;
+    --input: 220 26% 18%;
+    --ring: 213 47% 88%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  * {
+    @apply transition-colors duration-200;
+  }
+}
+
+/* Custom animations for a more engaging experience */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced button hover effects */
+button, a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card hover lift effect */
+.hover\:shadow-2xl {
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Scale effect helper */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}

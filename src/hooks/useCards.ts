@@ -1,0 +1,293 @@
+import { useState, useEffect } from 'react';
+
+interface CardImage {
+  id: string;
+  alt: string;
+  title: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface CardData {
+  id: string;
+  title: string;
+  description?: string;
+  agentPrice: number;
+  discountedPrice: number;
+  originalPrice: number;
+  flashSaleText?: string;
+  isFlashSaleAvailable: boolean;
+  pageType: string;
+  subPageType?: string;
+  images: CardImage[];
+}
+
+interface CardsResponse {
+  cards: CardData[];
+  total: number;
+}
+
+interface UseCardsOptions {
+  page?: string; // activities, hotels, cruise, holidays, etc.
+  subPage?: string; // dubai, abu_dhabi, oman, ras_al_khaimah
+  limit?: number;
+}
+
+export const useCards = (options: UseCardsOptions = {}) => {
+  const [data, setData] = useState<CardsResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const { page, subPage, limit = 10 } = options;
+
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const baseUrl = import.meta.env.VITE_DRUPAL_BASE_URL || 'https://b2b.arabianvibesllc.com';
+        
+        // Use simple API instead of JSON API for better image handling
+        let cardType = 'activities'; // default
+        
+        if (page) {
+          // Map page names to the correct card types
+          if (page === 'dubaiactivities' || page === 'abudhabiactivities' || 
+              page === 'omanactivities' || page === 'rasalkhaimahactivities' || 
+              page === 'activities') {
+            cardType = 'activities';
+          } else if (page === 'hotels') {
+            cardType = 'hotels';
+          } else if (page === 'holidays') {
+            cardType = 'holidays';
+          } else if (page === 'cruise') {
+            cardType = 'cruise';
+          } else if (page === 'visa') {
+            cardType = 'visa';
+          } else {
+            cardType = page;
+          }
+        }
+        
+        const url = `${baseUrl}/api/get-cards/${cardType}`;
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        // Transform simple API data to our CardData format
+        const rawCards = result.value || result || [];
+        const transformedCards: CardData[] = rawCards.map((card: any) => {
+          // Process images from the simple API format
+          const cardImages: CardImage[] = [];
+          
+          if (card.card_images && Array.isArray(card.card_images)) {
+            card.card_images.forEach((imageUrl: string, index: number) => {
+              if (imageUrl) {
+                cardImages.push({
+                  id: `${card.nid}-${index}`,
+                  alt: card.title || '',
+                  title: card.title || '',
+                  url: imageUrl, // Already processed by the simple API
+                  width: 400,
+                  height: 300,
+                });
+              }
+            });
+          }
+          
+          // Filter based on page and subPage for activities
+          const cardPageType = card.card_for_page || '';
+          const cardSubPageType = card.sub_page_type || '';
+          
+          // Apply client-side filtering for activities based on page and subPage
+          if (page && page.includes('activities')) {
+            if (cardPageType !== 'activities') {
+              return null; // Skip non-activity cards
+            }
+            
+            // Apply sub-page filtering for specific activity locations
+            if (page === 'dubaiactivities' && cardSubPageType && cardSubPageType !== 'dubai') {
+              return null;
+            } else if (page === 'abudhabiactivities' && cardSubPageType && cardSubPageType !== 'abu_dhabi') {
+              return null;
+            } else if (page === 'omanactivities' && cardSubPageType && cardSubPageType !== 'oman') {
+              return null;
+            } else if (page === 'rasalkhaimahactivities' && cardSubPageType && cardSubPageType !== 'ras_al_khaimah') {
+              return null;
+            }
+          }
+          
+          return {
+            id: card.nid || card.id || '',
+            title: card.title || '',
+            description: card.description || '',
+            agentPrice: parseFloat(card.card_agent_price || '0'),
+            discountedPrice: parseFloat(card.card_discounted_price || '0'),
+            originalPrice: parseFloat(card.card_original_price || '0'),
+            flashSaleText: card.flash_sale_text || '',
+            isFlashSaleAvailable: card.is_card_flash_sale_avail === '1' || card.is_card_flash_sale_avail === true,
+            pageType: cardPageType,
+            subPageType: cardSubPageType,
+            images: cardImages,
+          };
+        }).filter(Boolean); // Remove null entries from filtering
+
+        setData({
+          cards: transformedCards,
+          total: transformedCards.length
+        });
+        
+      } catch (err) {
+        console.error('Error fetching cards:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch cards');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCards();
+  }, [page, subPage, limit]);
+
+  const refetch = () => {
+    const fetchCards = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const baseUrl = import.meta.env.VITE_DRUPAL_BASE_URL || 'https://b2b.arabianvibesllc.com';
+        
+        let url = `${baseUrl}/jsonapi/node/cards?include=field_card_images,field_card_images.field_media_image`;
+        
+        const filters: string[] = [];
+        
+        if (page) {
+          let filterValue = page;
+          
+          if (page === 'dubaiactivities') {
+            filterValue = 'activities';
+            filters.push(`filter[field_slide_for_page]=${filterValue}`);
+            filters.push(`filter[field_sub_page_type]=dubai`);
+          } else if (page === 'abudhabiactivities') {
+            filterValue = 'activities';
+            filters.push(`filter[field_slide_for_page]=${filterValue}`);
+            filters.push(`filter[field_sub_page_type]=abu_dhabi`);
+          } else if (page === 'omanactivities') {
+            filterValue = 'oman';
+            filters.push(`filter[field_slide_for_page]=${filterValue}`);
+          } else if (page === 'rasalkhaimahactivities') {
+            filterValue = 'ras_al_khaimah';
+            filters.push(`filter[field_slide_for_page]=${filterValue}`);
+          } else {
+            filters.push(`filter[field_slide_for_page]=${filterValue}`);
+            if (subPage) {
+              filters.push(`filter[field_sub_page_type]=${subPage}`);
+            }
+          }
+        }
+        
+        if (filters.length > 0) {
+          url += '&' + filters.join('&');
+        }
+        
+        if (limit) {
+          url += `&page[limit]=${limit}`;
+        }
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        const transformedCards: CardData[] = result.data?.map((card: any) => {
+          const cardImages: CardImage[] = [];
+          
+          if (card.relationships?.field_card_images?.data) {
+            card.relationships.field_card_images.data.forEach((imageRef: any) => {
+              const mediaEntity = result.included?.find((item: any) => 
+                item.type === 'media--image' && item.id === imageRef.id
+              );
+              
+              if (mediaEntity?.relationships?.field_media_image?.data) {
+                const fileEntity = result.included?.find((item: any) => 
+                  item.type === 'file--file' && 
+                  item.id === mediaEntity.relationships.field_media_image.data.id
+                );
+                
+                if (fileEntity) {
+                  const imageUrl = fileEntity.attributes.uri?.url ? 
+                    `${baseUrl}${fileEntity.attributes.uri.url}` : 
+                    fileEntity.attributes.uri?.value || '';
+                    
+                  cardImages.push({
+                    id: fileEntity.id,
+                    alt: mediaEntity.relationships.field_media_image.data.meta?.alt || '',
+                    title: mediaEntity.relationships.field_media_image.data.meta?.title || '',
+                    url: imageUrl,
+                    width: mediaEntity.relationships.field_media_image.data.meta?.width || 0,
+                    height: mediaEntity.relationships.field_media_image.data.meta?.height || 0,
+                  });
+                }
+              }
+            });
+          }
+          
+          return {
+            id: card.id,
+            title: card.attributes.title || '',
+            description: card.attributes.body?.processed || card.attributes.body?.value || '',
+            agentPrice: parseFloat(card.attributes.field_card_agent_price || '0'),
+            discountedPrice: parseFloat(card.attributes.field_card_discounted_price || '0'),
+            originalPrice: parseFloat(card.attributes.field_card_original_price || '0'),
+            flashSaleText: card.attributes.field_flash_sale_text || '',
+            isFlashSaleAvailable: card.attributes.field_is_card_flash_sale_avail || false,
+            pageType: card.attributes.field_slide_for_page || '',
+            subPageType: card.attributes.field_sub_page_type || '',
+            images: cardImages,
+          };
+        }) || [];
+
+        setData({
+          cards: transformedCards,
+          total: transformedCards.length
+        });
+        
+      } catch (err) {
+        console.error('Error fetching cards:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch cards');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCards();
+  };
+
+  return {
+    data,
+    isLoading,
+    error,
+    refetch
+  };
+};

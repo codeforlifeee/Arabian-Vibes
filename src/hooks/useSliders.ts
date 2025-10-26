@@ -45,7 +45,12 @@ export const useSliders = (options: UseSlidersOptions = {}) => {
         setIsLoading(true);
         setError(null);
 
-        const baseUrl = import.meta.env.VITE_DRUPAL_BASE_URL || 'https://b2b.arabianvibesllc.com';
+        // In development, use relative path to utilize proxy
+        // In production, use full URL
+        const isDevelopment = import.meta.env.DEV;
+        const baseUrl = isDevelopment 
+          ? '' 
+          : (import.meta.env.VITE_DRUPAL_BASE_URL || 'https://b2b.arabianvibesllc.com');
         
         // Use Drupal JSON API for slides
         let url = `${baseUrl}/jsonapi/node/slides?include=field_card_images,field_card_images.field_media_image`;
@@ -95,11 +100,24 @@ export const useSliders = (options: UseSlidersOptions = {}) => {
           },
         });
 
+        console.log(`[useSliders] Response status: ${response.status}`);
+
         if (!response.ok) {
+          // If 404, return empty data instead of throwing error
+          if (response.status === 404) {
+            console.warn(`[useSliders] Sliders API endpoint not found, returning empty data`);
+            setData({
+              slides: [],
+              total: 0
+            });
+            setIsLoading(false);
+            return;
+          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
+        console.log(`[useSliders] Received ${result.data?.length || 0} slides from API`);
         
         // Transform JSON API format to SlideData with working image URLs
         const rawSlides = result.data || [];
@@ -184,11 +202,18 @@ export const useSliders = (options: UseSlidersOptions = {}) => {
         setData(slidersData);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to fetch sliders';
-        setError(errorMessage);
-        console.error('Error fetching sliders:', err);
+        console.warn('Sliders API error:', errorMessage);
         
-        // Don't set empty data on error - let the UI handle the error state
-        setData(null);
+        // Set empty data on error instead of showing error state
+        setData({
+          slides: [],
+          total: 0
+        });
+        
+        // Only set error if it's not a 404
+        if (!errorMessage.includes('404')) {
+          setError(errorMessage);
+        }
       } finally {
         setIsLoading(false);
       }

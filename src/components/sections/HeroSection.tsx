@@ -113,7 +113,7 @@ const HeroSection = () => {
     setSearchQuery(value);
     if (value.length > 0) {
       // Create activity suggestions from backend data or use fallback
-      const activityList = activitiesData?.data || [];
+      const activityList = activitiesData?.activities || [];
       let suggestionList: string[] = [];
       
       if (activityList.length > 0) {

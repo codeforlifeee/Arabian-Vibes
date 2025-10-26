@@ -154,10 +154,25 @@ const transformDrupalCardToActivity = (card: DrupalCard): Activity => {
   
   const description = card.description || '';
   
+  // Determine location from sub_page_type field
+  let location = 'Dubai'; // Default
+  if (card.sub_page_type) {
+    const subPageType = card.sub_page_type.toLowerCase();
+    if (subPageType === 'dubai') {
+      location = 'Dubai';
+    } else if (subPageType === 'abu_dhabi' || subPageType === 'abudhabi') {
+      location = 'Abu Dhabi';
+    } else if (subPageType === 'oman') {
+      location = 'Oman';
+    } else if (subPageType === 'ras_al_khaimah' || subPageType === 'rasalkhaimah') {
+      location = 'Ras Al Khaimah';
+    }
+  }
+  
   return {
     id: parseInt(card.nid),
     name: card.title || 'Untitled',
-    location: 'Dubai', // Default location
+    location: location,
     duration: '1-2 Hours', // Default duration
     category: card.card_for_page || 'activities',
     rating: 5, // Default rating
@@ -852,11 +867,12 @@ const transformDrupalCardToExperience = (card: DrupalCard): Experience => {
   return {
     id: parseInt(card.nid),
     title: card.title || 'Untitled',
+    location: city, // Add location field
     image: cardImages[0] || '/placeholder.svg',
     rating: 4.5, // Default rating since not in Drupal data
     reviews: Math.floor(Math.random() * 500) + 10, // Random reviews for now
-    price: card.card_original_price || '0.00',
-    originalPrice: card.card_discounted_price !== card.card_original_price ? card.card_original_price : undefined,
+    price: parseFloat(card.card_original_price) || 0,
+    originalPrice: card.card_discounted_price !== card.card_original_price ? parseFloat(card.card_original_price) : undefined,
     agentPrice: parseFloat(card.card_agent_price) || undefined,
     rPoints: Math.floor(parseFloat(card.card_original_price || '0') / 10), // Calculate points based on price
     isPopular: card.is_card_flash_sale_avail === '1',

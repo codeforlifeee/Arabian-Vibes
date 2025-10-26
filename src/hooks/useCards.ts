@@ -111,6 +111,8 @@ export const useCards = (options: UseCardsOptions = {}) => {
         
         // Transform simple API data to our CardData format
         const rawCards = result.value || result || [];
+        console.log(`[useCards] Raw cards:`, rawCards.length);
+        
         const transformedCards: CardData[] = rawCards.map((card: any) => {
           // Process images from the simple API format
           const cardImages: CardImage[] = [];
@@ -134,23 +136,35 @@ export const useCards = (options: UseCardsOptions = {}) => {
           const cardPageType = card.card_for_page || '';
           const cardSubPageType = card.sub_page_type || '';
           
-          // Apply client-side filtering for activities based on page and subPage
-          if (page && page.includes('activities')) {
-            if (cardPageType !== 'activities') {
-              return null; // Skip non-activity cards
+          // Apply client-side filtering ONLY for specific activity location pages
+          if (page === 'dubaiactivities') {
+            // Only show cards that are explicitly tagged for Dubai
+            if (cardSubPageType !== 'dubai') {
+              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "dubai")`);
+              return null;
             }
-            
-            // Apply sub-page filtering for specific activity locations
-            if (page === 'dubaiactivities' && cardSubPageType && cardSubPageType !== 'dubai') {
+          } else if (page === 'abudhabiactivities') {
+            // Only show cards that are explicitly tagged for Abu Dhabi
+            if (cardSubPageType !== 'abu_dhabi') {
+              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "abu_dhabi")`);
               return null;
-            } else if (page === 'abudhabiactivities' && cardSubPageType && cardSubPageType !== 'abu_dhabi') {
+            }
+          } else if (page === 'omanactivities') {
+            // Only show cards that are explicitly tagged for Oman
+            if (cardSubPageType !== 'oman') {
+              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "oman")`);
               return null;
-            } else if (page === 'omanactivities' && cardSubPageType && cardSubPageType !== 'oman') {
-              return null;
-            } else if (page === 'rasalkhaimahactivities' && cardSubPageType && cardSubPageType !== 'ras_al_khaimah') {
+            }
+          } else if (page === 'rasalkhaimahactivities') {
+            // Only show cards that are explicitly tagged for Ras Al Khaimah
+            if (cardSubPageType !== 'ras_al_khaimah') {
+              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "ras_al_khaimah")`);
               return null;
             }
           }
+          
+          // For general pages (home, popular_experience, about_us, activities), show all cards
+          // No filtering needed
           
           return {
             id: card.nid || card.id || '',
@@ -166,6 +180,8 @@ export const useCards = (options: UseCardsOptions = {}) => {
             images: cardImages,
           };
         }).filter(Boolean); // Remove null entries from filtering
+
+        console.log(`[useCards] Transformed cards after filtering: ${transformedCards.length}`);
 
         setData({
           cards: transformedCards,

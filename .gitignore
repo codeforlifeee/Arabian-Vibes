@@ -30,3 +30,9 @@ src\assets
 
 src\assets\
 src/assets/
+
+# Vercel
+.vercel
+*.vercel.json.backup
+.env*.local
+.env.production

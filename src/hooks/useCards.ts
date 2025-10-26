@@ -47,7 +47,12 @@ export const useCards = (options: UseCardsOptions = {}) => {
         setIsLoading(true);
         setError(null);
 
-        const baseUrl = import.meta.env.VITE_DRUPAL_BASE_URL || 'https://b2b.arabianvibesllc.com';
+        // In development, use relative path to utilize proxy
+        // In production, use full URL
+        const isDevelopment = import.meta.env.DEV;
+        const baseUrl = isDevelopment 
+          ? '' 
+          : (import.meta.env.VITE_DRUPAL_BASE_URL || 'https://b2b.arabianvibesllc.com');
         
         // Use simple API instead of JSON API for better image handling
         let cardType = 'activities'; // default
@@ -66,12 +71,16 @@ export const useCards = (options: UseCardsOptions = {}) => {
             cardType = 'cruise';
           } else if (page === 'visa') {
             cardType = 'visa';
+          } else if (page === 'popular_experience' || page === 'home' || page === 'about_us') {
+            // For pages without specific API endpoints, try activities as fallback
+            cardType = 'activities';
           } else {
             cardType = page;
           }
         }
         
         const url = `${baseUrl}/api/get-cards/${cardType}`;
+        console.log(`[useCards] Fetching cards - Page: ${page}, Type: ${cardType}, URL: ${url}`);
         
         const response = await fetch(url, {
           method: 'GET',
@@ -81,11 +90,24 @@ export const useCards = (options: UseCardsOptions = {}) => {
           },
         });
 
+        console.log(`[useCards] Response status: ${response.status}`);
+
         if (!response.ok) {
+          // If 404, return empty data instead of throwing error
+          if (response.status === 404) {
+            console.warn(`[useCards] Cards API endpoint not found for ${cardType}, returning empty data`);
+            setData({
+              cards: [],
+              total: 0
+            });
+            setIsLoading(false);
+            return;
+          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
+        console.log(`[useCards] Received ${Array.isArray(result) ? result.length : (result.value?.length || 0)} cards from API`);
         
         // Transform simple API data to our CardData format
         const rawCards = result.value || result || [];
@@ -151,8 +173,19 @@ export const useCards = (options: UseCardsOptions = {}) => {
         });
         
       } catch (err) {
-        console.error('Error fetching cards:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch cards');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch cards';
+        console.warn('Cards API error:', errorMessage);
+        
+        // Set empty data on error instead of showing error state
+        setData({
+          cards: [],
+          total: 0
+        });
+        
+        // Only set error if it's not a 404
+        if (!errorMessage.includes('404')) {
+          setError(errorMessage);
+        }
       } finally {
         setIsLoading(false);
       }

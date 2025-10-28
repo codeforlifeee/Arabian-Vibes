@@ -305,10 +305,10 @@ const Holidays = () => {
                 <button
                   key={star}
                   onClick={() => handleRatingFilter(star)}
-                  className={`w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full border transition ${formData.minRating >= star ? "bg-orange-500 text-white" : "bg-gray-200 text-gray-700"
+                  className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full border transition ${formData.minRating >= star ? "bg-orange-500 text-white" : "bg-gray-200 text-gray-700"
                     }`}
                 >
-                  <Star className={`h-3 w-3 md:h-4 md:w-4 ${formData.minRating >= star ? "fill-white" : ""}`} />
+                  <Star className={`h-4 w-4 md:h-5 md:w-5 ${formData.minRating >= star ? "fill-white" : ""}`} />
                 </button>
               ))}
               <span className="ml-2 text-xs md:text-sm text-gray-600">Minimum Rating</span>

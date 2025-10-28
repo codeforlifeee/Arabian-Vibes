@@ -88,7 +88,7 @@ const AboutUs = () => {
       },
       {
         breakpoint: 640,
-        settings: { slidesToShow: 2 },
+        settings: { slidesToShow: 1, arrows: false },
       },
     ],
   };

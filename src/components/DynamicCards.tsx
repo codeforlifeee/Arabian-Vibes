@@ -148,9 +148,9 @@ export const DynamicCards: React.FC<DynamicCardsProps> = ({
             </div>
 
             
-              {/* Title */}
+              {/* Title and Price Section */}
                <div className="p-3 sm:p-4 flex flex-col flex-grow justify-between">
-               <h3 className="font-semibold text-sm sm:text-lg mb-1 sm:mb-2">
+               <h3 className="font-semibold text-sm sm:text-lg mb-1 sm:mb-2 line-clamp-2">
                   {card.title}
                 </h3>
   <div className="flex items-end justify-between mt-auto">
@@ -171,21 +171,19 @@ export const DynamicCards: React.FC<DynamicCardsProps> = ({
                       </span>
                     </div>
                   </div>
+                  
+                  {/* Add to Cart Button */}
+                  <Button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddToCart?.(card);
+                    }}
+                    className="h-7 px-2 sm:h-9 sm:px-4 text-[10px] sm:text-sm bg-primary hover:bg-primary-glow"
+                  >
+                    Add to Cart
+                  </Button>
              </div>
 </div>
-              
-
-              {/* Add to Cart Button */}
-              <Button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onAddToCart?.(card);
-                }}
-                className="h-7 px-2 sm:h-9 sm:px-4 text-[10px] sm:text-sm bg-primary hover:bg-primary-glow"
-              >
-                
-                Add to Cart
-              </Button>
             
           </Card>
         );

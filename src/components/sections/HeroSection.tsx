@@ -147,11 +147,11 @@ const HeroSection = () => {
             <p className="font-semibold">
               <span className="font-extrabold">🎉 MEGA SALE!</span> Flat 8% discount on all Tours and Attractions. Use Code: <span className="font-extrabold bg-white text-red-600 px-3 py-1 rounded-lg shadow-md mx-1">SAVE8</span>
             </p>
-            <Button
+                        <Button
+              onClick={() => setShowPromo(false)}
               variant="ghost"
               size="icon"
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 h-6 w-6 sm:h-7 sm:w-7 rounded-full transition-all"
-              onClick={() => setShowPromo(false)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/30 h-8 w-8 sm:h-9 sm:w-9 rounded-full transition-all"
             >
               <X className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>

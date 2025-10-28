@@ -143,8 +143,9 @@ const AboutUs = () => {
 
            
             {/* About */}
-            <section className="container mx-auto px-4 py-12 text-center max-w-3xl">
-              <p className="text-muted-foreground mb-4">
+            <section className="container mx-auto px-4 py-16 text-center max-w-4xl">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">About Arabian Vibes</h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 Arabian Vibes LLC is your trusted travel partner in the UAE. From tailor-made holiday
                 experiences to smooth visa services, we deliver seamless journeys for tourists, families,
                 and business travelers.
@@ -154,59 +155,59 @@ const AboutUs = () => {
            
            {/* Services */}
 <section 
-  className="relative container mx-auto px-4 py-12 space-y-8 r bg-center rounded-2xl " 
-  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')" }}
+  className="relative container mx-auto px-4 py-16 space-y-8 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/10 rounded-2xl" 
 >
-  <div className="absolute inset-0  rounded-2xl"></div>
   <div className="relative z-10">
-    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-      Our <span className="text-Primary">Services</span>
+    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">
+      Our <span className="text-secondary">Services</span>
     </h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
   {[
     { 
-      icon: <ShieldCheck className="w-8 h-8 text-green-600" />, 
+      icon: <ShieldCheck className="w-10 h-10 text-primary" />, 
       title: "Visa Assistance", 
       desc: "Hassle-free visa processing.",
       link: "/visas" 
     },
     { 
-      icon: <Plane className="w-8 h-8 text-blue-600" />, 
+      icon: <Plane className="w-10 h-10 text-secondary" />, 
       title: "Custom Holidays", 
       desc: "Personalized holiday packages.",
       link: "/holidays" 
     },
     { 
-      icon: <Hotel className="w-8 h-8 text-purple-600" />, 
+      icon: <Hotel className="w-10 h-10 text-primary" />, 
       title: "Hotel Booking", 
       desc: "Best hotel deals for every budget.",
       link: "/hotels" 
     },
     { 
-      icon: <Ship className="w-8 h-8 text-teal-600" />, 
+      icon: <Ship className="w-10 h-10 text-secondary" />, 
       title: "Cruise Experiences", 
       desc: "Luxury cruises to top destinations.",
       link: "/cruise" 
     },
     { 
-      icon: <Briefcase className="w-8 h-8 text-orange-600" />, 
+      icon: <Briefcase className="w-10 h-10 text-primary" />, 
       title: "Corporate Travel", 
       desc: "Reliable MICE solutions.",
       
     },
     { 
-      icon: <Users className="w-8 h-8 text-pink-600" />, 
+      icon: <Users className="w-10 h-10 text-secondary" />, 
       title: "Airport Transfers", 
       desc: "Premium private transfers.",
     
     },
   ].map((service, index) => (
-    <Link to={service.link} key={index} className="block">
-      <Card className="hover:shadow-xl transition rounded-xl cursor-pointer">
-        <CardContent className="p-6 space-y-3">
-          {service.icon}
-          <h3 className="text-xl font-semibold">{service.title}</h3>
-          <p className="text-sm text-muted-foreground">{service.desc}</p>
+    <Link to={service.link} key={index} className="block group">
+      <Card className="hover:shadow-2xl transition-all duration-300 rounded-xl cursor-pointer border-2 border-transparent hover:border-primary/20 bg-white h-full">
+        <CardContent className="p-8 space-y-4 flex flex-col items-center text-center">
+          <div className="p-4 bg-accent/50 rounded-full group-hover:bg-primary/10 transition-colors duration-300">
+            {service.icon}
+          </div>
+          <h3 className="text-xl font-bold text-primary group-hover:text-secondary transition-colors">{service.title}</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">{service.desc}</p>
         </CardContent>
       </Card>
     </Link>
@@ -217,25 +218,25 @@ const AboutUs = () => {
 
 {/* Why Us */}
 <section 
-  className="relative py-12 px-4 bg-cover  rounded-2xl " 
-  style={{ backgroundImage: "" }}
+  className="relative py-16 px-4 bg-gradient-to-br from-secondary/10 via-primary/5 to-accent/20 rounded-2xl" 
 >
-  <div className="absolute inset-0  rounded-2xl"></div>
-  <div className="container mx-auto space-y-8 relative z-10 text-Primary">
-    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-       <span className="text-Primary">Why Choose Us?</span>
+  <div className="container mx-auto space-y-8 relative z-10">
+    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+       <span className="text-primary">Why Choose </span><span className="text-secondary">Arabian Vibes?</span>
     </h2>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {[
-        { icon: <Globe className="w-8 h-8 text-blue-600" />, title: "Expert Team", desc: "Local expertise at its best." },
-        { icon: <Handshake className="w-8 h-8 text-green-600" />, title: "Best Value", desc: "Great deals & transparency." },
-        { icon: <Clock className="w-8 h-8 text-orange-600" />, title: "24/7 Support", desc: "Always here to help you." },
+        { icon: <Globe className="w-10 h-10 text-primary" />, title: "Expert Team", desc: "Local expertise at its best." },
+        { icon: <Handshake className="w-10 h-10 text-secondary" />, title: "Best Value", desc: "Great deals & transparency." },
+        { icon: <Clock className="w-10 h-10 text-primary" />, title: "24/7 Support", desc: "Always here to help you." },
       ].map((reason, index) => (
-        <Card key={index} className="hover:shadow-xl transition rounded-xl bg-white/90 text-black">
-          <CardContent className="p-6 space-y-3">
-            {reason.icon}
-            <h3 className="text-xl font-semibold">{reason.title}</h3>
-            <p className="text-sm text-muted-foreground">{reason.desc}</p>
+        <Card key={index} className="hover:shadow-2xl transition-all duration-300 rounded-xl bg-white border-2 border-transparent hover:border-secondary/20 h-full">
+          <CardContent className="p-8 space-y-4 flex flex-col items-center text-center">
+            <div className="p-4 bg-accent/50 rounded-full hover:bg-secondary/10 transition-colors duration-300">
+              {reason.icon}
+            </div>
+            <h3 className="text-xl font-bold text-primary">{reason.title}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{reason.desc}</p>
           </CardContent>
         </Card>
       ))}
@@ -245,22 +246,22 @@ const AboutUs = () => {
 
 {/* Testimonials Slider */}
 <section 
-  className="relative container mx-auto px-4 py-12  bg-center rounded-2xl "
-  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80')" }}
+  className="relative container mx-auto px-4 py-16 bg-gradient-to-br from-accent/20 via-primary/5 to-secondary/10 rounded-2xl"
 >
-  <div className="absolute inset-0  rounded-2xl"></div>
   <div className="relative z-10">
-    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
-      What <span className="text-Primary">Our Clients Say</span>
+    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+      What <span className="text-primary">Our Clients </span><span className="text-secondary">Say</span>
     </h2>
     <Slider {...sliderSettings}>
       {testimonials.map((review, index) => (
         <div key={index} className="px-2">
-          <Card className="hover:shadow-xl transition rounded-xl h-full">
-            <CardContent className="p-6 space-y-3 text-center">
-              <Quote className="w-8 h-8 text-travel-orange mx-auto" />
-              <p className="text-sm text-muted-foreground">"{review.text}"</p>
-              <p className="text-sm font-semibold">{review.name}</p>
+          <Card className="hover:shadow-2xl transition-all duration-300 rounded-xl h-full border-2 border-transparent hover:border-primary/20 bg-white">
+            <CardContent className="p-8 space-y-4 text-center flex flex-col items-center min-h-[200px]">
+              <div className="p-3 bg-secondary/10 rounded-full">
+                <Quote className="w-8 h-8 text-secondary" />
+              </div>
+              <p className="text-base text-muted-foreground italic leading-relaxed flex-grow">"{review.text}"</p>
+              <p className="text-lg font-bold text-primary">{review.name}</p>
             </CardContent>
           </Card>
         </div>

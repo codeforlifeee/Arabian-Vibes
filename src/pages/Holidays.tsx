@@ -1,13 +1,11 @@
 "use client";
 import { useState } from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Search, MapPin, Calendar, Star, Loader2 } from "lucide-react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
@@ -18,16 +16,6 @@ import { useSliders } from "@/hooks/useSliders";
 import { DynamicSlider } from "@/components/ui/DynamicSlider";
 import { DynamicCards } from "@/components/DynamicCards";
 import InternalPageLayout from "./InternalPageLayout";
-
-// Using Unsplash images
-const AbuDhabiImg = "https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=800&q=80";
-const BangkokImg = "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&q=80";
-const DubaiImg = "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80";
-const HanoiImg = "https://images.unsplash.com/photo-1509606400453-c3faca3d4d6e?w=800&q=80";
-const KandyImg = "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80";
-const MaldivesImg = "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80";
-const MauritiusImg = "https://images.unsplash.com/photo-1598435737787-f2c1f67ec8df?w=800&q=80";
-const SingaporeImg = "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800&q=80";
 
 const Holidays = () => {
   // Use the custom search state hook
@@ -209,52 +197,6 @@ const Holidays = () => {
   };
 
 
-
-  const destinations = [
-    { name: "Abu Dhabi", image: AbuDhabiImg, href: "/destinations/abu-dhabi" },
-    { name: "Bangkok", image: BangkokImg, href: "/destinations/bangkok" },
-    { name: "Dubai", image: DubaiImg, href: "/destinations/dubai" },
-    { name: "Hanoi", image: HanoiImg, href: "/destinations/hanoi" },
-    { name: "Kandy", image: KandyImg, href: "/destinations/kandy" },
-    { name: "Maldives", image: MaldivesImg, href: "/destinations/maldives" },
-    { name: "Mauritius", image: MauritiusImg, href: "/destinations/mauritius" },
-    { name: "Singapore", image: SingaporeImg, href: "/destinations/singapore" },
-  ];
-
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4, // default for desktop
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    pauseOnHover: true,
-    cssEase: "linear",
-    responsive: [
-      {
-        breakpoint: 1024, // tablets
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 768, // larger mobiles
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 480, // small mobiles
-        settings: {
-          slidesToShow: 2, // ✅ two cards even on smallest
-        },
-      },
-    ],
-  };
-
-
   return (
     <div className="min-h-screen bg-background">
       {showInternalPage ? (
@@ -392,142 +334,81 @@ const Holidays = () => {
           </div>
         </div>
 
-
-
-  {/* Holiday Destinations */}
-        <div className="text-center py-8">
-          <h2 className="text-3xl font-bold mb-8">Holiday Destinations</h2>
-          <div className="px-4">
-            <Slider {...sliderSettings}>
-              {destinations.map((dest, index) => (
-                <div key={index} className="px-2">
-                  <a href={dest.href}>
-                    <Card className="relative overflow-hidden hover:shadow-lg cursor-pointer h-full">
-                      <img
-                        src={dest.image}
-                        alt={dest.name}
-                        className="w-full h-[200px] md:h-[250px] object-cover" />
-                      <div className="absolute inset-0 bg-black/20"></div>
-                      <div className="absolute bottom-0 left-0 w-full p-4">
-                        <h4 className="text-white font-semibold text-lg">{dest.name}</h4>
-                      </div>
-                    </Card>
-                  </a>
-                </div>
-              ))}
-            </Slider>
-          </div>
-
-          {/* International Destinations */}
-          <h2 className="text-3xl font-bold mt-16 mb-8">International Holiday Packages</h2>
-          <div className="px-4">
-            <Slider {...sliderSettings}>
-              {[
-                { name: "Bali", image: "https://d1i3enf1i5tb1f.cloudfront.net/City-Images/15688/almaty-city.jpg", href: "/bali-packages" },
-                { name: "Bangkok", image: "https://d1i3enf1i5tb1f.cloudfront.net/City-Images/16424/bangkok-city.jpg", href: "/bangkok-packages" },
-                { name: "Maldives", image: MaldivesImg, href: "/maldives-packages" },
-                { name: "Mauritius", image: MauritiusImg, href: "/mauritius-packages" },
-                { name: "Singapore", image: SingaporeImg, href: "/singapore-packages" },
-                { name: "Hanoi", image: HanoiImg, href: "/hanoi-packages" },
-                { name: "Kandy", image: KandyImg, href: "/kandy-packages" },
-                { name: "Amsterdam", image: "https://d1i3enf1i5tb1f.cloudfront.net/City-Images/15825/Amsterdam-image.jpg", href: "/amsterdam-packages" }
-              ].map((dest, index) => (
-                <div key={index} className="px-2">
-                  <a href={dest.href}>
-                    <Card className="relative overflow-hidden hover:shadow-lg cursor-pointer h-full">
-                      <img
-                        src={dest.image}
-                        alt={dest.name}
-                        className="w-full h-[200px] md:h-[250px] object-cover" />
-                      <div className="absolute inset-0 bg-black/20"></div>
-                      <div className="absolute bottom-0 left-0 w-full p-4">
-                        <h4 className="text-white font-semibold text-lg">{dest.name}</h4>
-                      </div>
-                    </Card>
-                  </a>
-                </div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-
-        
-        {/* Exclusive Summer Package Deals */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold mt-16 mb-4">
-            Exclusive Summer Package Deals
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Soak up the sun with our unbeatable deals — unwrap them now!
-          </p>
-        </div>
-
-        <div className="px-4">
-          <Slider {...sliderSettings}>
-            {holidays.map((holiday, index) => (
-              <div key={index} className="px-4">
-                <a href={`/holidays/${holiday.id}`}>
-                  <Card className="w-full flex flex-col overflow-hidden text-center hover:shadow-lg transition-shadow rounded-lg">
-                    <img
-                      src={holiday.image || '/placeholder.svg'}
-                      alt={holiday.name}
-                      className="w-full aspect-[4/3] object-cover"
-                    />
-                    {holiday.isFlashSale && holiday.flashSaleText && (
-                        <Badge
-                          variant="secondary"
-                          className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-destructive text-destructive-foreground text-[9px] sm:text-xs"
-                        >
-                          🔥 {holiday.flashSaleText}
-                        </Badge>
-                      )}
-                    <div className="p-3 sm:p-4 flex flex-col flex-grow justify-between">
-                      <h4 className="text-xs sm:text-sm font-semibold mb-1 line-clamp-1">
-                        {holiday.name}
-                      </h4>
-
-                      <div className="space-y-1 mt-auto">
-                        <div className="flex items-end justify-between">
-                          <div className="flex flex-col justify-end text-left">
-                            <span className="whitespace-nowrap text-[9px] sm:text-xs text-muted-foreground">
-                              Per Person from
-                            </span>
-                            <div className="flex items-end gap-1 sm:gap-2">
-                              {holiday.discountedPrice && (
-                                <span className="line-through text-[10px] sm:text-xs text-muted-foreground">
-                                  {formatPrice(holiday.price)}
-                                </span>
-                              )}
-                              <span className="text-[10px] sm:text-xs sm:text-sm font-bold">
-                                {getFormattedPrice(holiday)}
-                              </span>
-                            </div>
-                          </div>
-                          <Button
-                            className="h-6 px-2 sm:h-7 sm:px-4 text-[10px] sm:text-xs md:text-sm bg-primary hover:bg-primary-glow"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setSelectedHoliday(holiday);
-                              setShowInternalPage(true);
-                            }}
-                          >
-                            Add to cart
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </a>
+        {/* Results Section - DynamicCards component displays the holiday packages from Drupal */}
+        {hasSearched && (
+          <div className="container mx-auto px-4 pb-6">
+            {isLoading && (
+              <div className="flex justify-center items-center py-16">
+                <Loader2 className="h-12 w-12 animate-spin text-primary" />
               </div>
-            ))}
-          </Slider>
-       
-       
+            )}
 
-     
-                 
-          
-      </div>
+            {isError && (
+              <div className="text-center py-16">
+                <p className="text-red-500 text-lg mb-4">Error loading holidays: {String(error)}</p>
+                <Button onClick={() => refetch()}>Try Again</Button>
+              </div>
+            )}
+
+            {!isLoading && !isError && holidays.length === 0 && (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground text-lg">No holidays found matching your criteria.</p>
+                <Button onClick={handleResetFilters} className="mt-4">Reset Filters</Button>
+              </div>
+            )}
+
+            {!isLoading && !isError && holidays.length > 0 && (
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-bold">
+                    {totalResults} Package{totalResults !== 1 ? 's' : ''} Found
+                  </h2>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleResetFilters}
+                  >
+                    Reset Filters
+                  </Button>
+                </div>
+                <DynamicCards 
+                  cards={transformHolidaysToCards(holidays)}
+                  onCardClick={(card) => {
+                    const holiday = holidays.find(h => String(h.id) === String(card.id));
+                    if (holiday) {
+                      setSelectedHoliday(holiday);
+                      setShowInternalPage(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Exclusive Summer Package Deals - Displays holidays from Drupal CMS */}
+        {!hasSearched && holidays.length > 0 && (
+          <div className="container mx-auto px-4 pb-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4">
+                Exclusive Summer Package Deals
+              </h2>
+              <p className="text-muted-foreground">
+                Soak up the sun with our unbeatable deals — unwrap them now!
+              </p>
+            </div>
+
+            <DynamicCards 
+              cards={transformHolidaysToCards(holidays)}
+              onCardClick={(card) => {
+                const holiday = holidays.find(h => String(h.id) === String(card.id));
+                if (holiday) {
+                  setSelectedHoliday(holiday);
+                  setShowInternalPage(true);
+                }
+              }}
+            />
+          </div>
+        )}
 
       </main>
       <Footer />

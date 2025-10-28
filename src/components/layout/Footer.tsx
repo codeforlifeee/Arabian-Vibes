@@ -11,10 +11,10 @@ const Footer = () => {
   if (settingsLoading) {
     return (
       <footer className="bg-primary text-primary-foreground text-sm">
-        <div className="container mx-auto px-4 py-12 text-center">
-          <div className="flex flex-col items-center justify-center py-8">
-            <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
-            <span>Loading site settings...</span>
+        <div className="container mx-auto px-4 py-6 text-center">
+          <div className="flex flex-col items-center justify-center py-4">
+            <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin mb-2"></div>
+            <span className="text-xs">Loading site settings...</span>
           </div>
         </div>
       </footer>
@@ -25,11 +25,11 @@ const Footer = () => {
   if (settingsError) {
     return (
       <footer className="bg-primary text-primary-foreground text-sm">
-        <div className="container mx-auto px-4 py-12 text-center">
-          <div className="flex flex-col items-center justify-center py-8">
-            <span className="text-destructive font-bold mb-2">Unable to load site settings from backend.</span>
-            <span className="text-primary-foreground/80">{settingsError}</span>
-            <span className="text-primary-foreground/60 mt-4">Please check your backend configuration.</span>
+        <div className="container mx-auto px-4 py-6 text-center">
+          <div className="flex flex-col items-center justify-center py-4">
+            <span className="text-destructive font-bold mb-1 text-sm">Unable to load site settings from backend.</span>
+            <span className="text-primary-foreground/80 text-xs">{settingsError}</span>
+            <span className="text-primary-foreground/60 mt-2 text-xs">Please check your backend configuration.</span>
           </div>
         </div>
       </footer>
@@ -40,9 +40,9 @@ const Footer = () => {
   if (!siteSettings || Object.keys(siteSettings).length === 0) {
     return (
       <footer className="bg-primary text-primary-foreground text-sm">
-        <div className="container mx-auto px-4 py-12 text-center">
-          <div className="flex flex-col items-center justify-center py-8">
-            <span className="text-primary-foreground/80">No site settings available from backend.</span>
+        <div className="container mx-auto px-4 py-6 text-center">
+          <div className="flex flex-col items-center justify-center py-4">
+            <span className="text-primary-foreground/80 text-xs">No site settings available from backend.</span>
           </div>
         </div>
       </footer>
@@ -53,50 +53,50 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-primary to-primary/90 text-primary-foreground text-sm">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-12 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+      <div className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Company Info */}
           <div>
-            <div className="flex items-center mb-6">
+            <div className="flex items-center mb-3">
               <img
                 src="src/assets/whitelogo.png"
                 alt="Arabian Vibes Logo"
-                className="h-16 w-auto mr-3"
+                className="h-12 w-auto mr-2"
               />
             </div>
-            <h3 className="text-xl font-bold mb-4">
+            <h3 className="text-lg font-bold mb-2">
               {siteSettings.siteName || 'Arabian Vibes'}
             </h3>
-            <div className="space-y-3 leading-relaxed">
+            <div className="space-y-2 text-xs leading-relaxed">
               {siteSettings.dubaiContactNumber && (
-                <p className="flex items-center gap-2 hover:text-white transition-colors">
-                  <span className="text-lg">📞</span> 
+                <p className="flex items-center gap-1.5 hover:text-white transition-colors">
+                  <span className="text-sm">📞</span> 
                   <a href={`tel:${siteSettings.dubaiContactNumber}`}>Dubai: {siteSettings.dubaiContactNumber}</a>
                 </p>
               )}
               {siteSettings.indiaContactNumber && (
-                <p className="flex items-center gap-2 hover:text-white transition-colors">
-                  <span className="text-lg">📞</span> 
+                <p className="flex items-center gap-1.5 hover:text-white transition-colors">
+                  <span className="text-sm">📞</span> 
                   <a href={`tel:${siteSettings.indiaContactNumber}`}>India: {siteSettings.indiaContactNumber}</a>
                 </p>
               )}
               {siteSettings.whatsappNumber && (
-                <p className="flex items-center gap-2 hover:text-white transition-colors">
-                  <span className="text-lg">📱</span> 
+                <p className="flex items-center gap-1.5 hover:text-white transition-colors">
+                  <span className="text-sm">📱</span> 
                   <a href={`https://wa.me/${siteSettings.whatsappNumber.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
                     WhatsApp: {siteSettings.whatsappNumber}
                   </a>
                 </p>
               )}
               {siteSettings.email && (
-                <p className="flex items-center gap-2 hover:text-white transition-colors">
-                  <span className="text-lg">✉️</span> 
+                <p className="flex items-center gap-1.5 hover:text-white transition-colors">
+                  <span className="text-sm">✉️</span> 
                   <a href={`mailto:${siteSettings.email}`}>{siteSettings.email}</a>
                 </p>
               )}
               {siteSettings.address && (
-                <p className="flex items-start gap-2 text-primary-foreground/80">
-                  <span className="text-lg">🏢</span> 
+                <p className="flex items-start gap-1.5 text-primary-foreground/80">
+                  <span className="text-sm">🏢</span> 
                   <span className="flex-1">{siteSettings.address}</span>
                 </p>
               )}
@@ -105,8 +105,8 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-5 text-white">Quick Links</h4>
-            <ul className="space-y-3">
+            <h4 className="font-bold text-base mb-3 text-white">Quick Links</h4>
+            <ul className="space-y-2 text-xs">
               <li>
                 <Link
                   to="/about-us"
@@ -150,57 +150,10 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Trending Destinations */}
-          <div>
-            <h4 className="font-bold text-lg mb-5 text-white">Trending Destinations</h4>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  to="/activities/dubai"
-                  className="hover:text-white hover:underline transition-all inline-block hover:translate-x-1"
-                >
-                  Dubai Tours
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/activities/abu-dhabi"
-                  className="hover:text-white hover:underline transition-all inline-block hover:translate-x-1"
-                >
-                  Abu Dhabi Tours
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/activities/ras-al-khaimah"
-                  className="hover:text-white hover:underline transition-all inline-block hover:translate-x-1"
-                >
-                  Ras Al Khaimah Tours
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/activities/oman"
-                  className="hover:text-white hover:underline transition-all inline-block hover:translate-x-1"
-                >
-                  Oman Tours
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/visas"
-                  className="hover:text-white hover:underline transition-all inline-block hover:translate-x-1"
-                >
-                  Visa Services
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Social Media */}
           <div>
-            <h4 className="font-bold text-lg mb-5 text-white">Follow Us</h4>
-            <div className="flex flex-wrap gap-3 mb-5">
+            <h4 className="font-bold text-base mb-3 text-white">Follow Us</h4>
+            <div className="flex flex-wrap gap-2 mb-3">
               {siteSettings.facebookUrl && (
                 <a
                   href={siteSettings.facebookUrl}
@@ -212,9 +165,9 @@ const Footer = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all"
+                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all h-8 w-8"
                   >
-                    <Facebook className="h-5 w-5" />
+                    <Facebook className="h-4 w-4" />
                   </Button>
                 </a>
               )}
@@ -229,9 +182,9 @@ const Footer = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all"
+                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all h-8 w-8"
                   >
-                    <Instagram className="h-5 w-5" />
+                    <Instagram className="h-4 w-4" />
                   </Button>
                 </a>
               )}
@@ -246,9 +199,9 @@ const Footer = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all"
+                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all h-8 w-8"
                   >
-                    <Youtube className="h-5 w-5" />
+                    <Youtube className="h-4 w-4" />
                   </Button>
                 </a>
               )}
@@ -263,14 +216,14 @@ const Footer = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all"
+                    className="bg-white/10 border-white/30 hover:bg-white hover:text-primary transition-all h-8 w-8"
                   >
-                    <Linkedin className="h-5 w-5" />
+                    <Linkedin className="h-4 w-4" />
                   </Button>
                 </a>
               )}
             </div>
-            <p className="text-primary-foreground/80 leading-relaxed">
+            <p className="text-primary-foreground/80 text-xs leading-relaxed">
               Stay connected for the latest travel updates and exclusive offers.
             </p>
           </div>
@@ -279,8 +232,8 @@ const Footer = () => {
 
       {/* Bottom Footer */}
       <div className="border-t border-primary-foreground/20 bg-primary/80">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs sm:text-sm">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-2 text-xs">
             <p className="text-primary-foreground/90">
               © 2025 {siteSettings.siteName || 'Arabian Vibes LLC'}. All rights reserved.
             </p>

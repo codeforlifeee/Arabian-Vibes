@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { cleanHtmlContent } from '@/lib/htmlUtils';
 
 interface CardImage {
   id: string;
@@ -121,7 +122,7 @@ export const DynamicCards: React.FC<DynamicCardsProps> = ({
           <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={card.images?.[0]?.url || '/placeholder.svg'}
-                  alt={card.title}
+                  alt={cleanHtmlContent(card.title)}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.src = '/placeholder.svg';
@@ -151,7 +152,7 @@ export const DynamicCards: React.FC<DynamicCardsProps> = ({
               {/* Title and Price Section */}
                <div className="p-3 sm:p-4 flex flex-col flex-grow justify-between">
                <h3 className="font-semibold text-sm sm:text-lg mb-1 sm:mb-2 line-clamp-2">
-                  {card.title}
+                  {cleanHtmlContent(card.title)}
                 </h3>
   <div className="flex items-end justify-between mt-auto">
                   <div className="flex flex-col justify-end">

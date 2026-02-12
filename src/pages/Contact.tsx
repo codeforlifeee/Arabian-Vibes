@@ -95,7 +95,10 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold text-sm md:text-base">Email</h3>
                       <p className="text-gray-600 text-xs md:text-base">
-                        Operations@arabianvibesllc.com
+                        trilok@arabianvibesllc.com
+                      </p>
+                      <p className="text-gray-600 text-xs md:text-base">
+                        vineet@arabianvibesllc.com
                       </p>
                     </div>
                   </div>

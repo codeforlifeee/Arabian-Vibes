@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { cleanHtmlContent } from '@/lib/htmlUtils';
 
 interface CardImage {
   id: string;
@@ -168,8 +169,8 @@ export const useCards = (options: UseCardsOptions = {}) => {
           
           return {
             id: card.nid || card.id || '',
-            title: card.title || '',
-            description: card.description || '',
+            title: cleanHtmlContent(card.title || ''),
+            description: cleanHtmlContent(card.description || ''),
             agentPrice: parseFloat(card.card_agent_price || '0'),
             discountedPrice: parseFloat(card.card_discounted_price || '0'),
             originalPrice: parseFloat(card.card_original_price || '0'),
@@ -304,8 +305,8 @@ export const useCards = (options: UseCardsOptions = {}) => {
           
           return {
             id: card.id,
-            title: card.attributes.title || '',
-            description: card.attributes.body?.processed || card.attributes.body?.value || '',
+            title: cleanHtmlContent(card.attributes.title || ''),
+            description: cleanHtmlContent(card.attributes.body?.processed || card.attributes.body?.value || ''),
             agentPrice: parseFloat(card.attributes.field_card_agent_price || '0'),
             discountedPrice: parseFloat(card.attributes.field_card_discounted_price || '0'),
             originalPrice: parseFloat(card.attributes.field_card_original_price || '0'),

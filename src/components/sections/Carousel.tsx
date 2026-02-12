@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchSlides } from "@/components/services/slideService";
+import { cleanHtmlContent } from '@/lib/htmlUtils';
 
 interface Slide {
   id: string;
@@ -63,14 +64,14 @@ const Carousel: React.FC = () => {
                 <img
                   key={idx}
                   src={img}
-                  alt={`${slide.title}-${idx}`}
+                  alt={`${cleanHtmlContent(slide.title)}-${idx}`}
                   className="w-full h-full object-cover rounded-lg"
                 />
               ))}
             </Slider>
 
             <h3 className="text-center mt-4 text-lg font-semibold">
-              {slide.title}
+              {cleanHtmlContent(slide.title)}
             </h3>
           </div>
         ))}

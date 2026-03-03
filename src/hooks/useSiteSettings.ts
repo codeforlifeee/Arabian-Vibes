@@ -23,11 +23,11 @@ interface SiteSettingsResponse {
 
 // Fallback/default site settings with updated contact information
 const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  dubaiContactNumber: "+971-552763147",
-  indiaContactNumber: "+91-9871163568",
+  dubaiContactNumber: "+91-9871163568, +971-552763147",
+  indiaContactNumber: "+91-9599395089, +971-552164786",
   whatsappNumber: "+971-552164786",
-  email: "trilok@arabianvibesllc.com",
-  address: "75 Arabian Square Business Center Al Fahidi Dubai 12202",
+  email: "trilok@arabianvibesllc.com, vineet@arabianvibesllc.com",
+  address: "UAE: 75 Arabian Square Business Center Al Fahidi Dubai 12202 | INDIA: 129, First Floor, Antriksh bhawan, KG Marg, Connaught Place Delhi 110001",
   siteName: "Arabian Vibes LLC",
   siteDescription: "Your trusted travel partner for UAE and Middle East experiences",
 };

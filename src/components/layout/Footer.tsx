@@ -59,7 +59,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center mb-3">
               <img
-                src="src/assets/whitelogo.png"
+                src="/src/assets/whitelogo.png"
                 alt="Arabian Vibes Logo"
                 className="h-12 w-auto mr-2"
               />

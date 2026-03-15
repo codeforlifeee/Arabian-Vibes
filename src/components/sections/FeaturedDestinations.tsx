@@ -2,46 +2,24 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Using Unsplash images
 const dubaiCity = "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80";
 const abuDhabiCity = "https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=800&q=80";
 const jeddahCity = "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800&q=80";
 const singaporeCity = "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800&q=80";
 
 const destinations = [
-  {
-    id: 1,
-    name: "Dubai",
-    image: dubaiCity,
-    description: "Experience luxury and adventure",
-  },
-  {
-    id: 2,
-    name: "Abu Dhabi",
-    image: abuDhabiCity,
-    description: "Capital of culture and heritage",
-  },
-  {
-    id: 3,
-    name: "Jeddah",
-    image: jeddahCity,
-    description: "Gateway to the holy cities",
-  },
-  {
-    id: 4,
-    name: "Singapore",
-    image: singaporeCity,
-    description: "Garden city of Asia",
-  },
+  { id: 1, name: "Dubai", image: dubaiCity, description: "Experience luxury and adventure", location: "Dubai" },
+  { id: 2, name: "Abu Dhabi", image: abuDhabiCity, description: "Capital of culture and heritage", location: "Abu Dhabi" },
+  { id: 3, name: "Jeddah", image: jeddahCity, description: "Gateway to the holy cities", location: "Jeddah" },
+  { id: 4, name: "Singapore", image: singaporeCity, description: "Garden city of Asia", location: "Singapore" },
 ];
 
-const FeaturedDestinations = () => {
-  const navigate = useNavigate();
+interface FeaturedDestinationsProps {
+  onCountrySelect?: (country: string) => void;
+}
 
-  const handleDestinationClick = (destinationName: string) => {
-    const urlName = destinationName.toLowerCase().replace(/\s+/g, '-');
-    navigate(`/destination/${urlName}`);
-  };
+const FeaturedDestinations = ({ onCountrySelect }: FeaturedDestinationsProps) => {
+  const navigate = useNavigate();
   return (
     <section className="py-12 sm:py-16 bg-gradient-to-b from-blue-50/30 via-white to-blue-50/30">
       <div className="container mx-auto px-4">
@@ -52,8 +30,7 @@ const FeaturedDestinations = () => {
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl leading-relaxed font-medium">
               Experience the thrill of discovering off-the-beaten-path gems and
-              famous landmarks in top destinations worldwide — your wanderlust
-              awaits!
+              famous landmarks in top destinations worldwide — your wanderlust awaits!
             </p>
           </div>
           <div className="hidden sm:flex gap-2 sm:gap-3">
@@ -72,7 +49,10 @@ const FeaturedDestinations = () => {
               key={destination.id}
               className="group relative overflow-hidden rounded-3xl bg-white shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer animate-scale-in transform hover:scale-105 border border-gray-100"
               style={{ animationDelay: `${index * 100}ms` }}
-              onClick={() => handleDestinationClick(destination.name)}
+              onClick={() => {
+                const urlName = destination.location.toLowerCase().replace(/\s+/g, '-');
+                navigate(`/destination/${urlName}`);
+              }}
             >
               <div className="aspect-[4/3] relative overflow-hidden">
                 <img

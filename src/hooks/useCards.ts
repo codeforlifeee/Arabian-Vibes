@@ -133,39 +133,22 @@ export const useCards = (options: UseCardsOptions = {}) => {
             });
           }
           
-          // Filter based on page and subPage for activities
+          // Filter based on subPage prop OR hardcoded page names
           const cardPageType = card.card_for_page || '';
           const cardSubPageType = card.sub_page_type || '';
-          
-          // Apply client-side filtering ONLY for specific activity location pages
-          if (page === 'dubaiactivities') {
-            // Only show cards that are explicitly tagged for Dubai
-            if (cardSubPageType !== 'dubai') {
-              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "dubai")`);
-              return null;
-            }
+
+          // If subPage is explicitly passed, filter by it
+          if (subPage) {
+            if (cardSubPageType !== subPage) return null;
+          } else if (page === 'dubaiactivities') {
+            if (cardSubPageType !== 'dubai') return null;
           } else if (page === 'abudhabiactivities') {
-            // Only show cards that are explicitly tagged for Abu Dhabi
-            if (cardSubPageType !== 'abu_dhabi') {
-              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "abu_dhabi")`);
-              return null;
-            }
+            if (cardSubPageType !== 'abu_dhabi') return null;
           } else if (page === 'omanactivities') {
-            // Only show cards that are explicitly tagged for Oman
-            if (cardSubPageType !== 'oman') {
-              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "oman")`);
-              return null;
-            }
+            if (cardSubPageType !== 'oman') return null;
           } else if (page === 'rasalkhaimahactivities') {
-            // Only show cards that are explicitly tagged for Ras Al Khaimah
-            if (cardSubPageType !== 'ras_al_khaimah') {
-              console.log(`[useCards] Filtering out card "${card.title}" - subPageType: "${cardSubPageType}" (expected: "ras_al_khaimah")`);
-              return null;
-            }
+            if (cardSubPageType !== 'ras_al_khaimah') return null;
           }
-          
-          // For general pages (home, popular_experience, about_us, activities), show all cards
-          // No filtering needed
           
           return {
             id: card.nid || card.id || '',

@@ -27,12 +27,25 @@ const PopularExperiences = ({
   const { isAgent } = useAuth();
   const [selectedCard, setSelectedCard] = useState<any | null>(null);
   
-  // Original data fetching
+  // Map city/URL param to backend sub_page_type value
+  const cityToSubPage: Record<string, string> = {
+    'dubai': 'dubai',
+    'abu dhabi': 'abu_dhabi',
+    'abu-dhabi': 'abu_dhabi',
+    'oman': 'oman',
+    'ras al khaimah': 'ras_al_khaimah',
+    'ras-al-khaimah': 'ras_al_khaimah',
+  };
+  const subPage = cityToSubPage[city.toLowerCase()] ?? null;
+
   const { 
     data: cardsResponse, 
     isLoading, 
     error 
-  } = useCards({ page: 'popular_experience', limit: 20 });
+  } = useCards({ page: 'activities', subPage: subPage ?? undefined, limit: 20 });
+
+  // Only show cards if subPage matched — prevents wrong city cards
+  const cards = subPage ? (cardsResponse?.cards || []) : [];
 
   // Fetch sliders
   const { 
@@ -40,8 +53,6 @@ const PopularExperiences = ({
     isLoading: slidersLoading, 
     error: slidersError 
   } = useSliders({ page: 'popular_experience', limit: 5 });
-
-  const cards = cardsResponse?.cards || [];
 
   // End performance measurement
   endTimer();
@@ -169,21 +180,11 @@ const PopularExperiences = ({
             </p>
           </div>
           <div className="flex flex-col items-center justify-center py-16 bg-white rounded-3xl shadow-lg border-2 border-gray-100">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-              <Search className="h-12 w-12 text-gray-400" />
-            </div>
-            <p className="text-xl font-bold text-gray-700 mb-3">
-              No experiences found
+            <div className="text-6xl mb-6"></div>
+            <p className="text-2xl font-extrabold text-gray-800 mb-3">Coming Soon!</p>
+            <p className="text-sm text-gray-500 max-w-md text-center">
+              We're working hard to bring you amazing experiences here. Stay tuned!
             </p>
-            <p className="text-sm text-gray-500 mb-6">
-              Check back soon for exciting new adventures!
-            </p>
-            <Button 
-              onClick={() => window.location.reload()} 
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white font-bold px-8 py-6 shadow-lg rounded-xl"
-            >
-              Refresh
-            </Button>
           </div>
         </div>
       </section>

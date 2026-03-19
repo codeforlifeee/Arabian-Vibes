@@ -1,9 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+const PopularExperiences = lazy(() => import("@/pages/PopularExp"));
 
 const Destination = () => {
   const { destinationName } = useParams<{ destinationName: string }>();
@@ -61,77 +63,18 @@ const Destination = () => {
           </div>
         </div>
 
-        {/* Content Section */}
-        <div className="container mx-auto px-4 py-6 sm:py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-              
-              {/* Main Content */}
-              <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-                  <h2 className="text-xl sm:text-2xl font-bold mb-4">About {formattedName}</h2>
-                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                    {formattedName} offers incredible experiences for travelers. From stunning attractions 
-                    to cultural landmarks, there's something for everyone to enjoy.
-                  </p>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-                  <h2 className="text-xl sm:text-2xl font-bold mb-4">Popular Activities</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h3 className="font-semibold mb-2">Sightseeing Tours</h3>
-                      <p className="text-sm text-gray-600">Explore the best attractions and landmarks</p>
-                    </div>
-                    <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h3 className="font-semibold mb-2">Cultural Experiences</h3>
-                      <p className="text-sm text-gray-600">Immerse yourself in local culture</p>
-                    </div>
-                    <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h3 className="font-semibold mb-2">Adventure Activities</h3>
-                      <p className="text-sm text-gray-600">Thrilling experiences and adventures</p>
-                    </div>
-                    <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h3 className="font-semibold mb-2">Food & Dining</h3>
-                      <p className="text-sm text-gray-600">Taste authentic local cuisine</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sidebar */}
-              <div className="space-y-6">
-                <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-bold mb-4">Quick Info</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Best Time to Visit:</span>
-                      <span className="font-medium">Year Round</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Currency:</span>
-                      <span className="font-medium">AED</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Language:</span>
-                      <span className="font-medium">Arabic, English</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-bold mb-4">Need Help?</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Our travel experts are here to help you plan your perfect trip to {formattedName}.
-                  </p>
-                  <button className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium">
-                    Contact Us
-                  </button>
-                </div>
-              </div>
-            </div>
+        {/* Popular Experiences Section */}
+        <Suspense fallback={
+          <div className="flex items-center justify-center py-20">
+            <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
           </div>
-        </div>
+        }>
+          <PopularExperiences
+            city={formattedName}
+            title={`Most Popular Experiences in ${formattedName}`}
+            description={`Culture, nature, thrills, and record-breaking experiences — ${formattedName} is the place to seek out everything you imagine and beyond.`}
+          />
+        </Suspense>
         
         <Footer />
       </div>
